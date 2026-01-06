@@ -33,7 +33,7 @@ const Profile = () => {
             {/* Card Header */}
             <div className="card-body bg-dark text-white text-center rounded">
               <div className="d-flex flex-column align-items-center">
-                <Image src="../../images/default_user.png" width={80} height={80} className="rounded-circle bg-light" alt="User" />
+                <Image src="/images/default_user.png" width={80} height={80} className="rounded-circle bg-light" alt="User" />
                 <h5 className="mb-0 text-color-primary">{user.name}</h5>
                 <small className="text-light">{user.email}</small>
               </div>

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import BASE_URL from "../../../config";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import Image from "../../../components/Image"
 
 const Categories = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Categories = () => {
   }, []);  
 
   const actions = [
-    { label: "Add Category", onClick: () => navigate("form") },
+    { icon: "add", label: "Add", onClick: () => navigate("form"), variant: "btn-outline-primary btn-sm fw-bold" },
   ];
 
   const columns = [
@@ -46,12 +47,18 @@ const Categories = () => {
       sortable: false,
       cell: row => (
         row.icon ? (
-          <img
+          <Image
             src={`${BASE_URL}/storage/${row.icon}`}  // use the base URL
             alt="icon"
-            style={{ width: 40, height: 40, objectFit: "cover" }}
+            width="40px"
+            height="40px"
           />
-        ) : null
+        ) : (<Image
+              src="/images/default_image.png" 
+              alt="icon"
+              width="40px"
+              height="40px"
+          />)
       )
     },  
     { id: "name", name: "Name", selector: row => row.name, sortable: true },
@@ -116,7 +123,7 @@ const Categories = () => {
           pagination
           progressPending={loading}
           defaultSortFieldId="name"
-          defaultSortAsc={false}
+          defaultSortAsc={true}
         />
       </div>
     </div>

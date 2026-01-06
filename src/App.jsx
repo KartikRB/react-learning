@@ -16,9 +16,10 @@ import AdminLayout from "./layouts/AdminLayout";
 import PublicLayout from "./layouts/PublicLayout";
 import AdminRoute from "./routes/AdminRoute";
 import Dashboard from "./pages/admin/Dashboard";
-import Users from "./pages/admin/Users";
-import Categories from "./pages/admin/Categories/Index";
-import CategoriesForm from "./pages/admin/Categories/Form";
+import Users from "./pages/admin/users/Index";
+import UsersForm from "./pages/admin/users/Form";
+import Categories from "./pages/admin/categories/Index";
+import CategoriesForm from "./pages/admin/categories/Form";
 import Inquiries from "./pages/admin/Inquiries";
 import AdminProfile from "./pages/admin/Profile";
 
@@ -65,6 +66,8 @@ function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="users" element={<Users />} />
+          <Route path="users/form" element={<UsersForm />} />
+          <Route path="users/edit/:id" element={<UsersForm />} />
           <Route path="categories" element={<Categories />} />
           <Route path="categories/form" element={<CategoriesForm />} />
           <Route path="categories/edit/:id" element={<CategoriesForm />} />

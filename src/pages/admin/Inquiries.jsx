@@ -32,8 +32,8 @@ const Inquiries = () => {
       cell: (row, index) => index + 1,
       width: "80px",
     },
-    { name: "Name", selector: row => row.name, sortable: true },
-    { name: "Email", selector: row => row.email, sortable: true },
+    { name: "Name", selector: row => row.name, sortable: true, width: "150px" },
+    { name: "Email", selector: row => row.email, sortable: true, width: "200px"  },
     {
       name: "Type",
       selector: row => row.type,
@@ -49,15 +49,17 @@ const Inquiries = () => {
         </span>
       ),
       sortable: true,
+      width: "100px" 
     },
     {
       name: "Issue Type",
       selector: row => row.issue_type ?? "",
       cell: row => row.issue_type || "-",
       sortable: true,
+      width: "150px" 
     },    
-    { name: "Subject", selector: row => row.subject },
-    { name: "Description", selector: row => row.description },
+    { name: "Subject", selector: row => row.subject, width: "200px"  },
+    { name: "Description", selector: row => row.description, width: "300px"  },
     { 
       id: "created_at",
       name: "Date",

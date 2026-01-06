@@ -73,7 +73,7 @@ const Sidebar = () => {
           aria-expanded="false"
         >
           <Image
-            src="../images/default_user.png"
+            src="/images/default_user.png"
             width={32}
             height={32}
             className="rounded-circle bg-light me-2"

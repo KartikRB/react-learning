@@ -3,6 +3,16 @@
   margin: 0 auto;
 }
 
+label{
+  &.required{
+      &:after{
+          content: '*';
+          color: #dc3545;
+          margin-left: 2px;
+      }
+  }
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

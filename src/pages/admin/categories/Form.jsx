@@ -10,7 +10,7 @@ const Form = () => {
   const { id } = useParams();
 
   const actions = [
-    { label: "Back", onClick: () => navigate("/admin/categories") },
+    { label: "Back", onClick: () => navigate("/admin/categories"), variant: "btn-outline-primary btn-sm fw-bold" },
   ];
 
   const [formData, setFormData] = useState({
@@ -29,7 +29,6 @@ const Form = () => {
       api.get(`/get-categories/${id}`)
         .then(res => {
             if(res.status){
-                console.log(res);
                 const category = res.data.data;
                 setFormData({
                     name: category.name,
@@ -108,25 +107,25 @@ const Form = () => {
                 </div>
 
                 <div className="col-md-4 mb-3">
-                    <label htmlFor="name" className="form-label">Name</label>
+                    <label htmlFor="name" className="form-label required">Name</label>
                     <input type="text" id="name" name="name" className={`form-control ${errors.name ? "is-invalid" : ""}`} value={formData.name} onChange={handleChange} placeholder="Enter category name" />
                     {errors.name && <div className="invalid-feedback">{errors.name[0]}</div>}
                 </div>
     
                 <div className="col-md-4 mb-3">
-                    <label htmlFor="slug" className="form-label">Slug</label>
+                    <label htmlFor="slug" className="form-label required">Slug</label>
                     <input type="text" id="slug" name="slug" className={`form-control ${errors.slug ? "is-invalid" : ""}`} value={formData.slug} onChange={handleChange} placeholder="Enter slug (e.g., electronics)" />
                     {errors.slug && <div className="invalid-feedback">{errors.slug[0]}</div>}
                 </div>
     
                 <div className="col-md-12 mb-3">
-                    <label htmlFor="description" className="form-label">Description</label>
+                    <label htmlFor="description" className="form-label required">Description</label>
                     <textarea id="description" name="description" className={`form-control ${errors.description ? "is-invalid" : ""}`} value={formData.description} onChange={handleChange} placeholder="Optional description..." rows={4} />
                     {errors.description && <div className="invalid-feedback">{errors.description[0]}</div>}
                 </div>
             </div>
             <div className="text-end">
-                <button type="submit" className="btn btn-dark" disabled={loading}>
+                <button type="submit" className="btn btn-primary fw-bold" disabled={loading}>
                     {id ? "Update" : "Create"}
                 </button>
             </div>

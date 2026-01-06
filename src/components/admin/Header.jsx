@@ -6,7 +6,7 @@ const Header = ({ title = "Title", actions = [] }) => {
                 <div className="d-flex gap-2">
                     {actions.map((action, index) => (
                         <button key={index} type="button" className={`btn ${action.variant || "btn-primary"}`} onClick={action.onClick}>
-                            {action.label}
+                            {action.icon && <i className={`fa fa-${action.icon}`} />}{" "} {action.label}
                         </button>
                     ))}
                 </div>
