@@ -46,15 +46,17 @@ const Users = () => {
           <Image
             src={`${BASE_URL}/storage/${row.user_detail?.profile_image}`}
             alt="profile_image"
-            width="40px"
-            height="40px"
+            width="50px"
+            height="50px"
+            className="rounded-circle"
             style={{objectFit: "cover"}}
           />
         ) : (<Image
               src="/images/default_user.png" 
               alt="icon"
-              width="40px"
-              height="40px"
+              width="50px"
+              height="50px"
+              className="rounded-circle border border-dark border-2"
               style={{objectFit: "cover"}}
           />)
       )

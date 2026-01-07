@@ -1,21 +1,36 @@
 // Sidebar.jsx
 import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import reactLogo from '../../assets/react.svg';
 import Image from '../Image';
-import { logout } from "../../auth/Auth";
+import { isLoggedIn, logout } from "../../auth/Auth";
+import { fetchUser } from "../../api/User";
+import BASE_URL from "../../config";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
+  useEffect(() => {
+    if (isLoggedIn()) {
+      fetchUser()
+        .then((res) => {
+          setUser(res.data);
+          console.log(res.data);
+        })
+        .catch(() => logout());
+    }
+  }, []);
+
   return (
     <div
-      className="d-flex flex-column p-3 bg-light border-end border-gray"
-      style={{ width: "280px", minHeight: "100vh" }}
+      className="d-flex flex-column p-3 bg-light border-end border-gray sticky-top vh-100"
+      style={{ width: "280px", transition: "all 0.3s" }}
     >
       <Image src={reactLogo} height={75} alt="React logo" className="mb-3" />
       
@@ -72,14 +87,23 @@ const Sidebar = () => {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <Image
+         {user?.user_detail?.profile_image ? (<Image
+            src={`${BASE_URL}/storage/${user.user_detail.profile_image}`}
+            width={32}
+            height={32}
+            className="rounded-circle bg-light me-2"
+            alt="User"
+          />) : (<Image
             src="/images/default_user.png"
             width={32}
             height={32}
             className="rounded-circle bg-light me-2"
             alt="User"
-          />
-          <strong className="text-light">Admin</strong>
+          />)}
+          <div>
+            <strong className="text-light">{user?.name ?? "User"}</strong><br />
+            <small className="text-color-primary text-uppercase fw-bold">{user?.role ?? "User"}</small>
+          </div>
         </a>
         <ul className="dropdown-menu text-small shadow">
           <li>

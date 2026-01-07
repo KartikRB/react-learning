@@ -1,14 +1,18 @@
+import { useState } from "react";
+
 function Image({
-    src,
-    alt = "image",
-    className = "",
-    width,
-    height,
-    style = {},
-    loading = "lazy",
-    onClick,
-  }) {
-    return (
+  src,
+  alt = "image",
+  className = "",
+  width,
+  height,
+  style = {},
+  loading = "lazy",
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
       <img
         src={src}
         alt={alt}
@@ -16,14 +20,44 @@ function Image({
         width={width}
         height={height}
         loading={loading}
-        onClick={onClick}
         style={{
           objectFit: "contain",
+          cursor: "pointer",
           ...style,
         }}
+        onClick={() => setIsOpen(true)}
       />
-    )
-  }
-  
-  export default Image
-  
+
+      {/* Modal / Popup */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <img
+            src={src}
+            alt={alt}
+            style={{
+              maxWidth: "90%",
+              maxHeight: "90%",
+              objectFit: "contain",
+            }}
+          />
+        </div>
+      )}
+    </>
+  );
+}
+
+export default Image;

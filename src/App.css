@@ -40,6 +40,12 @@ label{
   border: 1px solid #00D8FF!important;
 }
 
+.dropdown-item.active, .dropdown-item:active {
+  color: #FFFFFF!important;
+  text-decoration: none!important;
+  background-color: #00D8FF!important;
+}
+
 .nav-link {
   transition: all 0.3s ease; /* smooth transition for all changes */
 }
