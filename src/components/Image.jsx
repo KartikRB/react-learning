@@ -42,7 +42,7 @@ function Image({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex: 1000,
+            zIndex: 99999,
           }}
         >
           <img
