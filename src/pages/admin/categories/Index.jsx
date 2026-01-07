@@ -52,12 +52,14 @@ const Categories = () => {
             alt="icon"
             width="40px"
             height="40px"
+            style={{objectFit: "cover"}}
           />
         ) : (<Image
               src="/images/default_image.png" 
               alt="icon"
               width="40px"
               height="40px"
+              style={{objectFit: "cover"}}
           />)
       )
     },  

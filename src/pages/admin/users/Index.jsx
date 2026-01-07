@@ -6,6 +6,8 @@ import api from "../../../api/Axios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Image from "../../../components/Image"
+import BASE_URL from "../../../config";
 
 const Users = () => {
   const navigate = useNavigate();
@@ -36,8 +38,46 @@ const Users = () => {
       cell: (row, index) => index + 1,
       width: "80px",
     },
+    {
+      name: "Profile Image",
+      sortable: false,
+      cell: row => (
+        row.user_detail?.profile_image ? (
+          <Image
+            src={`${BASE_URL}/storage/${row.user_detail?.profile_image}`}
+            alt="profile_image"
+            width="40px"
+            height="40px"
+            style={{objectFit: "cover"}}
+          />
+        ) : (<Image
+              src="/images/default_user.png" 
+              alt="icon"
+              width="40px"
+              height="40px"
+              style={{objectFit: "cover"}}
+          />)
+      )
+    }, 
     { id: "name", name: "Name", selector: row => row.name, sortable: true },
     { name: "Email", selector: row => row.email, sortable: true },
+    { name: "Phone", selector: row => row.user_detail?.phone ?? "", sortable: true },
+    {
+      name: "Date Of Birth",
+      selector: row => new Date(row.user_detail?.date_of_birth).getTime(),
+      cell: row => {
+        if (row.user_detail?.date_of_birth) {
+          const date = new Date(row.user_detail.date_of_birth);
+          return date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+          });
+        }
+        return ""; // return empty string if no date
+      },
+      sortable: true,
+    },
     {
       name: "Actions",
       sortable: false,
@@ -101,7 +141,7 @@ const Users = () => {
           pagination
           progressPending={loading}
           defaultSortFieldId="name"
-          defaultSortAsc={false}
+          defaultSortAsc={true}
         />
       </div>
     </div>

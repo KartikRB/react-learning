@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "../../../components/admin/Header";
 import api from "../../../api/Axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import ImagePreview from "../../../components/ImagePreview";
+import BASE_URL from "../../../config";
 
 const Form = () => {
   const navigate = useNavigate();
-
+  const fileInputRef = useRef(null);
   const { id } = useParams();
 
   const actions = [
@@ -34,7 +36,7 @@ const Form = () => {
                     name: category.name,
                     slug: category.slug,
                     description: category.description,
-                    icon: null,
+                    icon: category.icon,
                 });
             }
         })
@@ -92,27 +94,61 @@ const Form = () => {
     }
   };
 
+  const handleRemove = async (e) => {
+    e.preventDefault();
+    if(id && !(formData.icon instanceof File)){
+      try {
+        const res = await api.delete("/categories/" + id + "/remove-icon");
+        if(res.status){
+          toast.success(res.data.message || "Category icon removed successfully!");
+          setFormData({ ...formData, icon: null });
+        }else{
+          toast.error(res.data.message || "Category icon not removed!");
+        }
+      }catch (err) {
+          toast.error("Something went wrong. Try again.");
+      }
+    }else{
+      setFormData({ ...formData, icon: null });
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <div>
       <Header title={id ? "Edit Category" : "Create Category"} actions={actions} />
   
       <div className="card shadow-sm">
         <div className="card-body">
+          {formData.icon && (
+            <div className="d-flex justify-content-center align-items-center mb-3">
+              <ImagePreview
+                imageSrc={
+                  formData.icon instanceof File
+                    ? URL.createObjectURL(formData.icon)
+                    : `${BASE_URL}/storage/${formData.icon}`
+                }
+                onRemove={handleRemove}
+              />
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
             <div className="row">
-                <div className="col-md-4 mb-3">
+                <div className="col-md-12 mb-3">
                     <label htmlFor="icon" className="form-label">Icon (Image)</label>
-                    <input type="file" id="icon" name="icon" className={`form-control ${errors.icon ? "is-invalid" : ""}`} accept="image/*" onChange={handleFileChange} />
+                    <input type="file" ref={fileInputRef} id="icon" name="icon" className={`form-control ${errors.icon ? "is-invalid" : ""}`} accept="image/*" onChange={handleFileChange} />
                     {errors.icon && <div className="invalid-feedback">{errors.icon[0]}</div>}
                 </div>
 
-                <div className="col-md-4 mb-3">
+                <div className="col-md-6 mb-3">
                     <label htmlFor="name" className="form-label required">Name</label>
                     <input type="text" id="name" name="name" className={`form-control ${errors.name ? "is-invalid" : ""}`} value={formData.name} onChange={handleChange} placeholder="Enter category name" />
                     {errors.name && <div className="invalid-feedback">{errors.name[0]}</div>}
                 </div>
     
-                <div className="col-md-4 mb-3">
+                <div className="col-md-6 mb-3">
                     <label htmlFor="slug" className="form-label required">Slug</label>
                     <input type="text" id="slug" name="slug" className={`form-control ${errors.slug ? "is-invalid" : ""}`} value={formData.slug} onChange={handleChange} placeholder="Enter slug (e.g., electronics)" />
                     {errors.slug && <div className="invalid-feedback">{errors.slug[0]}</div>}

@@ -18,7 +18,8 @@ function Image({
         loading={loading}
         onClick={onClick}
         style={{
-          objectFit: "contain", style,
+          objectFit: "contain",
+          ...style,
         }}
       />
     )
