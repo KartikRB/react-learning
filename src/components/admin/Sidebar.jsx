@@ -21,7 +21,6 @@ const Sidebar = () => {
       fetchUser()
         .then((res) => {
           setUser(res.data);
-          console.log(res.data);
         })
         .catch(() => logout());
     }
@@ -66,6 +65,26 @@ const Sidebar = () => {
             }
           >
            <i className="fa fa-box me-2"></i> Categories
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            to="/admin/calculator"
+            className={({ isActive }) =>
+              `nav-link mb-2 ${isActive ? "active" : "link-dark"}`
+            }
+          >
+           <i className="fa fa-calculator me-2"></i> Calculator
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            to="/admin/games"
+            className={({ isActive }) =>
+              `nav-link mb-2 ${isActive ? "active" : "link-dark"}`
+            }
+          >
+           <i className="fa fa-dragon me-2"></i> Games
           </NavLink>
         </li>
         <li className="nav-item">

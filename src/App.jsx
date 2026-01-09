@@ -22,6 +22,9 @@ import Categories from "./pages/admin/categories/Index";
 import CategoriesForm from "./pages/admin/categories/Form";
 import Inquiries from "./pages/admin/Inquiries";
 import AdminProfile from "./pages/admin/Profile";
+import Calculator from "./pages/admin/Calculator";
+import Games from "./pages/admin/games/Index";
+import SnakeGame from "./pages/admin/SnakeGame";
 
 function App() {
   return (
@@ -73,6 +76,9 @@ function App() {
           <Route path="categories/edit/:id" element={<CategoriesForm />} />
           <Route path="inquiries" element={<Inquiries />} />
           <Route path="profile" element={<AdminProfile />} />
+          <Route path="calculator" element={<Calculator />} />
+          <Route path="games" element={<Games />} />
+          <Route path="games/snake-game" element={<SnakeGame />} />
         </Route>
       </Routes>
     </Router>
