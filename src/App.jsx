@@ -24,7 +24,8 @@ import Inquiries from "./pages/admin/Inquiries";
 import AdminProfile from "./pages/admin/Profile";
 import Calculator from "./pages/admin/Calculator";
 import Games from "./pages/admin/games/Index";
-import SnakeGame from "./pages/admin/SnakeGame";
+import SnakeGame from "./pages/admin/games/SnakeGame";
+import TikTakToe from "./pages/admin/games/TikTakToe";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
           <Route path="calculator" element={<Calculator />} />
           <Route path="games" element={<Games />} />
           <Route path="games/snake-game" element={<SnakeGame />} />
+          <Route path="games/tik-tak-toe" element={<TikTakToe />} />
         </Route>
       </Routes>
     </Router>
