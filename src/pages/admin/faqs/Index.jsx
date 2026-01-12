@@ -62,7 +62,7 @@ const Faqs = () => {
     },
     { name: "Question", selector: row => row.question, sortable: true },
     { name: "answer", selector: row => row.answer, sortable: true },
-    { id: "order", name: "order", selector: row => row.order, sortable: true },
+    { id: "order", name: "order", selector: row => row.order, sortable: true , omit: true},
     {
       name: "Status",
       selector: row => row.is_active,
@@ -100,7 +100,8 @@ const Faqs = () => {
             <i className="fa fa-trash"></i>
           </button>
         </div>
-      )
+      ),
+      width: "100px",
     }
   ];
 

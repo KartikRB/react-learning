@@ -211,7 +211,7 @@ export default function SnakeGame() {
                   top: `${(food.y / BOARD_SIZE) * 100}%`,
                 }}
               >
-                <i className="fa fa-frog text-warning"></i>
+                🍎
               </div>
               {gameOver && (
                 <div style={styles.overlay}>
@@ -236,8 +236,8 @@ export default function SnakeGame() {
             <h4 className="text-color-primary fw-bold mb-3">📊 Stats</h4>
 
             <div className="mb-3">
-              <span className="fw-bold">Length:</span>
-              <span className="float-end">{snake.length}</span>
+              <span>Apples:</span>
+              <span className="float-end">{snake.length - 1} 🍎</span>
             </div>
 
             <div className="mb-3">
@@ -367,7 +367,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     fontSize: 20,
-    filter: "drop-shadow(0 0 6px #ffc107)",
+    filter: "drop-shadow(0 0 6px #FF0000)",
   },
 
   overlay: {
