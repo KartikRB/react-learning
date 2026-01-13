@@ -1,20 +1,28 @@
+import { useEffect, useState } from "react";
 import Carousel from '../components/Carousel';
 import TopCategories from '../components/TopCategories';
 import Image from '../components/Image';
 import ProductCard from '../components/ProductCard';
 import slider2 from '/images/slider-2.png';
-import headphones from '/images/products/headphones.png';
-import watch from '/images/products/watch.jpg';
-import mouse from '/images/products/mouse.jpg';
-import tv from '/images/products/tv.jpg';
+import api from "../api/Axios";
 
 function Home() {
-  const products = [
-    { id: 1, name: "Wireless Headphones", price: 59.99, image: headphones, description: "High-quality wireless headphones with noise cancellation.", rating: 4.5, category: "Audio", stock: 12 },
-    { id: 2, name: "Smart Watch", price: 129.99, image: watch, description: "Track your fitness and notifications with style.", rating: 2.2, category: "Wearables", stock: 5 },
-    { id: 3, name: "Gaming Mouse", price: 39.99, image: mouse, description: "Ergonomic gaming mouse with customizable buttons.", rating: 4.8, category: "Gaming", stock: 20 },
-    { id: 4, name: "Smart Android LED TV", price: 699.99, image: tv, description: "High-definition smart TV with Android OS and streaming apps.", rating: 4.6, category: "Electronics", stock: 7 }
-  ];
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get("/get-products");
+      if (response.data.status) {
+        setProducts(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>
@@ -36,8 +44,9 @@ function Home() {
         </div>
       </div>
       <div className="container mt-4">
+        <h2 className="mb-4">Featured Products</h2>
         <div className="row">
-          {products.map(product => (
+          {products.filter(product => product.is_active && product.is_featured).map(product => (
             <div key={product.id} className="col-md-4 col-lg-3 col-6 mb-4">
               <ProductCard product={product} />
             </div>

@@ -18,6 +18,8 @@ import AdminRoute from "./routes/AdminRoute";
 import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/users/Index";
 import UsersForm from "./pages/admin/users/Form";
+import Products from "./pages/admin/products/Index";
+import ProductsForm from "./pages/admin/products/Form";
 import Faqs from "./pages/admin/faqs/Index";
 import FaqsForm from "./pages/admin/faqs/Form";
 import Categories from "./pages/admin/categories/Index";
@@ -74,6 +76,9 @@ function App() {
           <Route path="users" element={<Users />} />
           <Route path="users/form" element={<UsersForm />} />
           <Route path="users/edit/:id" element={<UsersForm />} />
+          <Route path="products" element={<Products />} />
+          <Route path="products/form" element={<ProductsForm />} />
+          <Route path="products/edit/:id" element={<ProductsForm />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="faqs/form" element={<FaqsForm />} />
           <Route path="faqs/edit/:id" element={<FaqsForm />} />

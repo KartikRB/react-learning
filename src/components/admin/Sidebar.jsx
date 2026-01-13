@@ -59,6 +59,16 @@ const Sidebar = () => {
         </li>
         <li className="nav-item">
           <NavLink
+            to="/admin/products"
+            className={({ isActive }) =>
+              `nav-link mb-2 ${isActive ? "active" : "link-dark"}`
+            }
+          >
+           <i className="fa fa-shopping-bag me-2"></i> Products
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
             to="/admin/categories"
             className={({ isActive }) =>
               `nav-link mb-2 ${isActive ? "active" : "link-dark"}`
