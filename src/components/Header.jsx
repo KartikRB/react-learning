@@ -63,7 +63,7 @@ function Header() {
         </li>
       </ul>
 
-      <div className="col-md-1 text-end me-3">
+      <div className="col-md-3 text-end me-3">
       {!isLoggedIn() ? (
           <>
             <button
@@ -80,15 +80,23 @@ function Header() {
             </button>
           </>
         ) : user && (
-          <div className="flex-shrink-0 dropdown">
-            <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="/images/default_user.png" width="32" height="32" className="rounded-circle bg-light" alt="User"/>
+          <div className='d-flex justify-content-end align-items-center'>
+            <a href="#" className="text-danger me-4 fs-4">
+              <i className='fa fa-heart'></i>
             </a>
-            <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-              <li><button className="dropdown-item" onClick={() => navigate("/profile")}>Profile</button></li>
-              <li><hr className="dropdown-divider" /></li>
-              <li><button type='button' className="dropdown-item text-danger" onClick={handleLogout}>Sign Out</button></li>
-            </ul>
+            <a href="#" className="text-light me-4 fs-4">
+              <i className='fa fa-shopping-cart'></i>
+            </a>
+            <div className="flex-shrink-0 dropdown">
+              <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="/images/default_user.png" width="32" height="32" className="rounded-circle bg-light" alt="User"/>
+              </a>
+              <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <li><button className="dropdown-item" onClick={() => navigate("/profile")}>Profile</button></li>
+                <li><hr className="dropdown-divider" /></li>
+                <li><button type='button' className="dropdown-item text-danger" onClick={handleLogout}>Sign Out</button></li>
+              </ul>
+            </div>
           </div>
         )}
       </div>

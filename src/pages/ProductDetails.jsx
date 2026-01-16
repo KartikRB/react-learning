@@ -124,14 +124,28 @@ const ProductDetails = () => {
 
           <p className="lead">{product.short_description}</p>
 
-          <button className={`btn btn-dark mt-3 ${product.stock === 0 ? 'disabled' : ''}`}>
-            {product.stock === 0 ? "Out of Stock" : (
-              <>
-                <i className="fa fa-shopping-cart me-2"></i>
-                Add to Cart
-              </>
-            )}
-          </button>
+          <div className="row g-2">
+            <div className="col-md-6">
+              <button className={`btn btn-dark btn-lg mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
+              {product.stock === 0 ? "Out of Stock" : (
+                <>
+                  <i className="fa fa-shopping-cart me-2"></i>
+                  Add to Cart
+                </>
+              )}
+            </button>
+            </div>
+            <div className="col-md-6">
+              <button className={`btn btn-warning btn-lg mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
+              {product.stock === 0 ? "Out of Stock" : (
+                <>
+                  <i className="fa fa-heart me-2"></i>
+                  Add to Wishlist
+                </>
+              )}
+            </button>
+            </div>
+          </div>
         </div>
       </div>
 
