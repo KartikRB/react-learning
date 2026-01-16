@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ImagePreview from "../../../components/ImagePreview";
 import BASE_URL from "../../../config";
+import ProductImageIndex from "./partials/ProductImagesIndex"
 
 const Form = () => {
   const navigate = useNavigate();
@@ -124,7 +125,7 @@ const Form = () => {
     e.preventDefault();
     if (id && !(formData.primary_image instanceof File)) {
       try {
-        const res = await api.delete("/products/" + id + "/remove-primary-image");
+        const res = await api.delete("/products/" + id + "/remove-product-image");
         if(res.status){
           toast.success(res.data.message || "Product primary image removed successfully!");
           setFormData({ ...formData, primary_image: null });
@@ -156,7 +157,7 @@ const Form = () => {
                   ? URL.createObjectURL(formData.primary_image)
                   : `${BASE_URL}/storage/${formData.primary_image}`
               }
-              onRemove={handleRemove}
+              // onRemove={handleRemove}
             />
           </div>
         )}
@@ -215,6 +216,17 @@ const Form = () => {
                 </button>
             </div>
           </form>
+
+          {id && (
+            <>
+              <hr className="my-4" />
+              <div>
+                <h4 className="mb-3">Product Images</h4>
+                <ProductImageIndex productId={id} />
+              </div>
+            </>
+          )}
+
         </div>
       </div>
     </div>

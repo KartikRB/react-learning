@@ -1,10 +1,9 @@
-import React from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Image from "../components/Image";
 import BASE_URL from "../config";
 
 const ProductDetails = () => {
-  const { id } = useParams(); 
   const location = useLocation();
   const product = location.state?.product;
 
@@ -26,34 +25,73 @@ const ProductDetails = () => {
     );
   };
 
+  const sortedImages = [...product.images].sort((a, b) => b.is_primary - a.is_primary);
+  const [mainImage, setMainImage] = useState(
+    sortedImages.length ? `${BASE_URL}/storage/${sortedImages[0].path}` : "/images/default_product.png"
+  );
+
   return (
     <div className="container" style={{ marginTop: "5rem" }}>
       <div className="row g-4">
-        {/* Product Image */}
-        <div className="col-md-5 text-center">
+        <div className="col-12 d-flex justify-content-between align-items-center">
+          <h2 className="mb-0">Product Details</h2>
+          <button className="btn btn-dark" onClick={() => window.history.back()}>
+            Back
+          </button>
+        </div>
+        <hr />
+        <div className="col-md-1 d-flex flex-column align-items-center" style={{maxHeight: "450px", overflowY: "auto"}}>
+          {sortedImages.map((img, idx) => (
+            <div
+              key={idx}
+              className="mb-2 border rounded"
+              style={{
+                cursor: "pointer",
+                border: mainImage === `${BASE_URL}/storage/${img.path}` ? "2px solid #007bff" : "1px solid #ccc",
+                width: "60px",
+                height: "60px",
+                overflow: "hidden",
+                flexShrink: 0,
+              }}
+              onClick={() => setMainImage(`${BASE_URL}/storage/${img.path}`)}
+            >
+              <img
+                src={`${BASE_URL}/storage/${img.path}`}
+                alt={product.name}
+                className="img-fluid"
+                style={{ objectFit: "cover", width: "100%", height: "100%" }}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="col-md-6 text-center">
           <div className="card shadow-sm border-0">
-            <Image 
-              src={product.primary_image ? `${BASE_URL}/storage/${product.primary_image?.path}` : '/images/default_product.png'}
-              alt={product.name} 
+            <Image
+              src={mainImage}
+              alt={product.name}
               className="card-img-top img-fluid rounded"
-              style={{ height: "450px", objectFit: "contain", transition: "transform 0.3s" }}
-              onMouseOver={e => e.currentTarget.style.transform = "scale(1.05)"}
-              onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
+              style={{
+                maxHeight: "450px",
+                width: "100%",
+                objectFit: "contain",
+                transition: "transform 0.3s",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
             />
           </div>
         </div>
 
-        {/* Product Details */}
-        <div className="col-md-7">
+        <div className="col-md-5">
+          <h2 className="fw-bold">{product.name}</h2>
+
           <div className="mb-3">
-            <h2 className="fw-bold">{product.name}</h2>
-            <div className="mb-2">
-              <span className="badge bg-secondary me-2">{product.category?.name}</span>
-              {product.stock > 0 
-                ? <span className="badge bg-success">{product.stock} in stock</span>
-                : <span className="badge bg-danger">Out of stock</span>
-              }
-            </div>
+            <span className="badge bg-secondary me-2">{product.category?.name}</span>
+            {product.stock > 0 
+              ? <span className="badge bg-success">{product.stock} in stock</span>
+              : <span className="badge bg-danger">Out of stock</span>
+            }
           </div>
 
           <h3 className="text-danger fw-bold mb-3">${product.price}</h3>
@@ -65,19 +103,20 @@ const ProductDetails = () => {
 
           <p className="lead">{product.short_description}</p>
 
-          <button 
-            className={`btn btn-dark btn-lg mt-3 ${product.stock === 0 ? 'disabled' : ''}`}
-          >
-            {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+          <button className={`btn btn-dark mt-3 ${product.stock === 0 ? 'disabled' : ''}`}>
+            {product.stock === 0 ? "Out of Stock" : (
+              <>
+                <i className="fa fa-shopping-cart me-2"></i>
+                Add to Cart
+              </>
+            )}
           </button>
-
-          <hr className="my-4" />
-
-          <div className="product-description">
-            <h5 className="mb-3">Product Details</h5>
-            <p style={{ whiteSpace: "pre-line", lineHeight: "1.6" }}>{product.description}</p>
-          </div>
         </div>
+      </div>
+
+      <div className="product-description my-5">
+        <h5 className="mb-3">Product Details</h5>
+        <p style={{ whiteSpace: "pre-line", lineHeight: "1.6" }}>{product.description}</p>
       </div>
     </div>
   );
