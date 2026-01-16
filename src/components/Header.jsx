@@ -82,7 +82,7 @@ function Header() {
         ) : user && (
           <div className="flex-shrink-0 dropdown">
             <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-              <Image src="/images/default_user.png" width="32" height="32" className="rounded-circle bg-light" alt="User"/>
+              <img src="/images/default_user.png" width="32" height="32" className="rounded-circle bg-light" alt="User"/>
             </a>
             <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
               <li><button className="dropdown-item" onClick={() => navigate("/profile")}>Profile</button></li>

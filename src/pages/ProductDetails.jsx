@@ -1,15 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Image from "../components/Image";
 import BASE_URL from "../config";
+import api from "../api/Axios";
+import ProductCard from '../components/ProductCard';
 
 const ProductDetails = () => {
   const location = useLocation();
   const product = location.state?.product;
+  const [products, setProducts] = useState([]);
 
   if (!product) {
     return <p className="text-center mt-5 fs-4">Product not found!</p>;
   }
+
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get("/get-products");
+      if (response.data.status) {
+        const relatedProducts = response.data.data.filter(
+          pro => pro.category_id === product.category_id && pro.id !== product.id
+        ).slice(0, 4);
+        setProducts(relatedProducts);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
@@ -118,6 +139,18 @@ const ProductDetails = () => {
         <h5 className="mb-3">Product Details</h5>
         <p style={{ whiteSpace: "pre-line", lineHeight: "1.6" }}>{product.description}</p>
       </div>
+      {products.length > 0 && (
+        <div className="mt-4">
+          <h5 className="mb-5">From the Same Category</h5>
+          <div className="row">
+            {products.filter(product => product.is_active && product.is_featured).map(product => (
+              <div key={product.id} className="col-md-4 col-lg-3 col-6 mb-4">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )} 
     </div>
   );
 };
