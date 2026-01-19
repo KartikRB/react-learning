@@ -105,3 +105,30 @@ label{
   box-shadow: 0 0 10px 0 #00D8FF !important;
   transform: scale(1.1);
 }
+
+.product-card img {
+  transition: transform 0.3s ease!important;
+}
+
+.product-card:hover img {
+  transform: scale(1.05)!important;
+}
+
+.product-card:hover {
+  transform: translateY(-4px)!important;
+  transition: 0.3s ease!important;
+}
+
+.form-range::-webkit-slider-thumb {
+  background: #00D8FF!important;
+}
+
+.form-range::-moz-range-progress {
+  background: #00D8FF!important;
+}
+
+.form-range::-moz-range-thumb {
+  background: #00D8FF!important;
+}
+
+

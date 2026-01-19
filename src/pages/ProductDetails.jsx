@@ -206,7 +206,7 @@ const ProductDetails = () => {
 
           <div className="row g-2">
             <div className="col-md-6">
-              <button className={`btn btn-dark btn-lg mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
+              <button className={`btn btn-dark mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
               {product.stock === 0 ? "Out of Stock" : (
                 <>
                   <i className="fa fa-shopping-cart me-2"></i>
@@ -216,7 +216,7 @@ const ProductDetails = () => {
             </button>
             </div>
             <div className="col-md-6">
-              <button className={`btn btn-primary btn-lg mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
+              <button className={`btn btn-primary text-dark mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
               {product.stock === 0 ? "Out of Stock" : (
                 <>
                   <i className="fa fa-heart me-2"></i>

@@ -1,11 +1,10 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Image from './Image';
 import BASE_URL from "../config";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
@@ -39,15 +38,15 @@ const ProductCard = ({ product }) => {
           <p className="card-text">{product.short_description}</p>
         </div>
         <div className="d-flex justify-content-between align-items-center mt-auto">
-          <h4 className="mt-auto">${product.price}</h4>
+          <h5 className="mt-auto">${product.price}</h5>
           <p className={`mb-2 ${product.stock > 0 ? "text-success" : "text-danger"}`}>
             {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
           </p>
         </div>
-        <button className="btn btn-dark mt-2" disabled={product.stock === 0}>
+        <button className="btn btn-dark btn-sm mt-2" disabled={product.stock === 0}>
           <i className="fa fa-shopping-cart me-2"></i> Add to Cart
         </button>
-        <button className="btn btn-primary mt-2" disabled={product.stock === 0}>
+        <button className="btn btn-primary text-dark btn-sm mt-2" disabled={product.stock === 0}>
           <i className="fa fa-heart me-2"></i> Add to Wishlist
         </button>
       </div>
