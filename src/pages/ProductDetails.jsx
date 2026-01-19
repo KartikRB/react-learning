@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Image from "../components/Image";
 import BASE_URL from "../config";
 import api from "../api/Axios";
 import ProductCard from '../components/ProductCard';
 
 const ProductDetails = () => {
-  const location = useLocation();
-  const product = location.state?.product;
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
+  const [mainImage, setMainImage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!product) {
-    return <p className="text-center mt-5 fs-4">Product not found!</p>;
-  }
 
   const fetchProducts = async () => {
     try {
@@ -20,7 +19,7 @@ const ProductDetails = () => {
       if (response.data.status) {
         const relatedProducts = response.data.data.filter(
           pro => pro.category_id === product.category_id && pro.id !== product.id
-        ).slice(0, 4);
+        ).sort(() => Math.random() - 0.5).slice(0, 4);
         setProducts(relatedProducts);
       }
     } catch (error) {
@@ -29,8 +28,88 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get(`/get-product-details/${id}`);
+        if (response.data.status) {
+          setProduct(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProduct();
+  }, [id]);
+
+  useEffect(() => {
+    if (!product) return;
+  
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get("/get-products");
+        if (response.data.status) {
+          const relatedProducts = response.data.data
+            .filter(
+              pro =>
+                pro.category_id === product.category_id &&
+                pro.id !== product.id
+            )
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 4);
+  
+          setProducts(relatedProducts);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+  
     fetchProducts();
-  }, []);
+  }, [product]);
+  
+  useEffect(() => {
+    if (!product?.images?.length) return;
+  
+    const sortedImages = [...product.images].sort(
+      (a, b) => b.is_primary - a.is_primary
+    );
+  
+    setMainImage(
+      `${BASE_URL}/storage/${sortedImages[0].path}`
+    );
+  }, [product]);
+  
+  if (loading) {
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center mt-5" style={{minHeight: "500px"}}>
+        <div className="spinner-border text-primary mb-3" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="fs-5 text-muted">Loading product, please wait...</p>
+      </div>
+    );
+  }
+  
+  if (!product) {
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center mt-5 text-center" style={{minHeight: "500px"}}>
+        <h4 className="fw-semibold mb-2">Product not found</h4>
+        <p className="text-muted mb-3">
+          The product you’re looking for doesn’t exist or is no longer available.
+        </p>
+        <button
+          className="btn btn-outline-primary"
+          onClick={() => window.history.back()}
+        >
+          Go Back
+        </button>
+      </div>
+    );
+  }
 
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
@@ -47,9 +126,6 @@ const ProductDetails = () => {
   };
 
   const sortedImages = [...product.images].sort((a, b) => b.is_primary - a.is_primary);
-  const [mainImage, setMainImage] = useState(
-    sortedImages.length ? `${BASE_URL}/storage/${sortedImages[0].path}` : "/images/default_product.png"
-  );
 
   return (
     <div className="container" style={{ marginTop: "5rem" }}>
@@ -62,30 +138,34 @@ const ProductDetails = () => {
         </div>
         <hr />
         <div className="col-md-1 d-flex flex-column align-items-center" style={{maxHeight: "450px", overflowY: "auto"}}>
-          {sortedImages.map((img, idx) => (
-            <div
-              key={idx}
-              className="mb-2 border rounded"
-              style={{
-                cursor: "pointer",
-                border: mainImage === `${BASE_URL}/storage/${img.path}` ? "2px solid #007bff" : "1px solid #ccc",
-                width: "60px",
-                height: "60px",
-                overflow: "hidden",
-                flexShrink: 0,
-              }}
-              onClick={() => setMainImage(`${BASE_URL}/storage/${img.path}`)}
-            >
-              <img
-                src={`${BASE_URL}/storage/${img.path}`}
-                alt={product.name}
-                className="img-fluid"
-                style={{ objectFit: "cover", width: "100%", height: "100%" }}
-              />
-            </div>
-          ))}
-        </div>
+          {sortedImages.map((img, idx) => {
+            const imageUrl = `${BASE_URL}/storage/${img.path}`;
+            const isActive = mainImage === imageUrl;
 
+            return (
+              <div
+                key={idx}
+                className={`mt-2 border rounded product-image-thumbnail ${isActive ? "active" : ""}`}
+                style={{
+                  cursor: "pointer",
+                  border: isActive ? "2px solid #007bff" : "1px solid #ccc",
+                  width: "60px",
+                  height: "60px",
+                  overflow: "hidden",
+                  flexShrink: 0,
+                }}
+                onClick={() => setMainImage(imageUrl)}
+              >
+                <img
+                  src={imageUrl}
+                  alt={product.name}
+                  className="img-fluid"
+                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                />
+              </div>
+            );
+          })}
+        </div>
         <div className="col-md-6 text-center">
           <div className="card shadow-sm border-0">
             <Image
@@ -114,7 +194,7 @@ const ProductDetails = () => {
               : <span className="badge bg-danger">Out of stock</span>
             }
           </div>
-
+            
           <h3 className="text-danger fw-bold mb-3">${product.price}</h3>
 
           <div className="d-flex align-items-center mb-3">
@@ -136,7 +216,7 @@ const ProductDetails = () => {
             </button>
             </div>
             <div className="col-md-6">
-              <button className={`btn btn-warning btn-lg mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
+              <button className={`btn btn-primary btn-lg mt-3 w-100 ${product.stock === 0 ? 'disabled' : ''}`}>
               {product.stock === 0 ? "Out of Stock" : (
                 <>
                   <i className="fa fa-heart me-2"></i>
@@ -157,7 +237,7 @@ const ProductDetails = () => {
         <div className="mt-4">
           <h5 className="mb-5">From the Same Category</h5>
           <div className="row">
-            {products.filter(product => product.is_active && product.is_featured).map(product => (
+            {products.filter(product => product.is_active).map(product => (
               <div key={product.id} className="col-md-4 col-lg-3 col-6 mb-4">
                 <ProductCard product={product} />
               </div>

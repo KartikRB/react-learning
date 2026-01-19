@@ -81,7 +81,7 @@ function Header() {
           </>
         ) : user && (
           <div className='d-flex justify-content-end align-items-center'>
-            <a href="#" className="text-danger me-4 fs-4">
+            <a href="#" className="text-light me-4 fs-4">
               <i className='fa fa-heart'></i>
             </a>
             <a href="#" className="text-light me-4 fs-4">
@@ -92,7 +92,7 @@ function Header() {
                 <img src="/images/default_user.png" width="32" height="32" className="rounded-circle bg-light" alt="User"/>
               </a>
               <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                <li><button className="dropdown-item" onClick={() => navigate("/profile")}>Profile</button></li>
+                <li><button className="dropdown-item" onClick={() => navigate("/profile")}><i className='fa fa-user-circle me-2'></i> My Profile</button></li>
                 <li><hr className="dropdown-divider" /></li>
                 <li><button type='button' className="dropdown-item text-danger" onClick={handleLogout}>Sign Out</button></li>
               </ul>
