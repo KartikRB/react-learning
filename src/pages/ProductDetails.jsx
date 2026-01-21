@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Image from "../components/Image";
+import ImageMagnifier from "../components/ImageMagnifier";
 import BASE_URL from "../config";
 import api from "../api/Axios";
 import ProductCard from '../components/ProductCard';
@@ -168,18 +168,11 @@ const ProductDetails = () => {
         </div>
         <div className="col-md-6 text-center">
           <div className="card shadow-sm border-0">
-            <Image
+            <ImageMagnifier
               src={mainImage}
-              alt={product.name}
-              className="card-img-top img-fluid rounded"
-              style={{
-                maxHeight: "450px",
-                width: "100%",
-                objectFit: "contain",
-                transition: "transform 0.3s",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+              width={650}
+              height={450}
+              zoom={2}
             />
           </div>
         </div>
